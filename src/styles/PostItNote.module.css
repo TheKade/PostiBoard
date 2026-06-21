@@ -1,0 +1,481 @@
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 124, 89, 0.5); }
+  50% { box-shadow: 0 0 0 14px rgba(74, 124, 89, 0); }
+}
+
+@keyframes noteIn {
+  from { opacity: 0; transform: scale(0.92) rotate(-1deg); }
+  to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* === Note base === */
+.note {
+  position: absolute;
+  min-height: 180px;
+  padding: 1.75rem 1rem 1rem;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 150ms ease, transform 150ms ease;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  animation: noteIn 300ms ease-out;
+}
+
+.note:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.sizeSmall { width: 160px; }
+.sizeMedium { width: 200px; }
+.sizeLarge { width: 260px; }
+
+/* === Size-specific footer scaling === */
+.sizeSmall .badge {
+  font-size: 0.5625rem;
+  padding: 0.0625rem 0.25rem;
+  letter-spacing: 0.2px;
+}
+
+.sizeSmall .connectBtn {
+  width: 20px;
+  height: 20px;
+  font-size: 0.625rem;
+}
+
+.sizeSmall .resizeBtn {
+  width: 20px;
+  height: 20px;
+  font-size: 0.5625rem;
+}
+
+.sizeSmall .deleteButton {
+  font-size: 0.6875rem;
+  padding: 0.1875rem 0.375rem;
+}
+
+.sizeSmall .footerRight {
+  gap: 0.125rem;
+}
+
+.sizeLarge .badge {
+  font-size: 0.6875rem;
+  padding: 0.1875rem 0.5rem;
+}
+
+.sizeLarge .connectBtn {
+  width: 28px;
+  height: 26px;
+  font-size: 0.875rem;
+}
+
+.sizeLarge .resizeBtn {
+  width: 26px;
+  height: 26px;
+  font-size: 0.6875rem;
+}
+
+.sizeLarge .deleteButton {
+  font-size: 0.8125rem;
+  padding: 0.3125rem 0.625rem;
+}
+
+.sizeLarge .footerRight {
+  gap: 0.375rem;
+}
+
+.dragging {
+  cursor: grabbing;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.04) !important;
+  z-index: 1000;
+}
+
+.connectSource {
+  outline: 3px solid #c9a83a;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px rgba(201, 168, 58, 0.25), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.connectTarget {
+  animation: pulse 1.2s infinite;
+  cursor: pointer !important;
+}
+
+/* === Pin / Tachuela === */
+.pin {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.pinHead {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  transition: transform 150ms ease;
+}
+
+.pin:hover .pinHead {
+  transform: scale(1.25);
+}
+
+.pin::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 2px;
+  height: 10px;
+  background: linear-gradient(to bottom, #a09080, transparent);
+  border-radius: 1px;
+}
+
+.pinLow .pinHead {
+  background: radial-gradient(circle at 35% 35%, #a8d4a0, #5a8f6b);
+}
+
+.pinMedium .pinHead {
+  background: radial-gradient(circle at 35% 35%, #f0e08a, #c9a83a);
+}
+
+.pinHigh .pinHead {
+  background: radial-gradient(circle at 35% 35%, #e8a098, #b85450);
+}
+
+/* === Title editing === */
+.editInput {
+  width: 100%;
+  padding: 0.25rem 0.375rem;
+  border: 1px solid #b8a888;
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.7);
+  color: #3a3528;
+  outline: none;
+}
+
+.editInput:focus {
+  border-color: #8a7a6a;
+  box-shadow: 0 0 0 2px rgba(138, 122, 106, 0.2);
+}
+
+.title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #3a3528;
+  word-break: break-word;
+}
+
+/* === Sub-items === */
+.subList {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+  font-size: 0.8125rem;
+}
+
+.subCheckbox {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #b8a888;
+  border-radius: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  background: rgba(255, 255, 255, 0.4);
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.subCheckbox:checked {
+  background-color: #4a7c59;
+  border-color: #4a7c59;
+}
+
+.subCheckbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 3.5px;
+  width: 3px;
+  height: 6px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+.subText {
+  flex: 1;
+  color: #3a3528;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.subDone {
+  text-decoration: line-through;
+  color: #8a8578;
+}
+
+.subDelete {
+  background: transparent;
+  border: none;
+  color: #b8a888;
+  font-size: 0.625rem;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 150ms ease, color 150ms ease, background-color 150ms ease;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.subItem:hover .subDelete {
+  opacity: 1;
+}
+
+.subDelete:hover {
+  color: #b85450;
+  background: rgba(184, 84, 80, 0.1);
+}
+
+.subToggle {
+  padding: 2px 0;
+}
+
+.subToggleBtn {
+  background: transparent;
+  border: none;
+  color: #8a8578;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 150ms ease;
+}
+
+.subToggleBtn:hover {
+  color: #3a3528;
+}
+
+.subInput {
+  margin-top: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid #c0b9b0;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  background: rgba(255, 255, 255, 0.6);
+  color: #3a3528;
+  outline: none;
+  width: 100%;
+}
+
+.subInput::placeholder {
+  color: #a09080;
+}
+
+.subInput:focus {
+  border-color: #8a7a6a;
+}
+
+.addSubBtn {
+  margin-top: 0.375rem;
+  background: transparent;
+  border: 1px dashed #c0b9b0;
+  border-radius: 4px;
+  color: #8a8578;
+  font-size: 0.75rem;
+  padding: 0.375rem;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.addSubBtn:hover {
+  color: #4a7c59;
+  border-color: #4a7c59;
+  background: rgba(74, 124, 89, 0.05);
+}
+
+/* === Footer === */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.footerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.badge {
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.low { background: #5a8f6b; }
+.medium { background: #c9a83a; }
+.high { background: #b85450; }
+
+.connectBtn {
+  background: transparent;
+  border: 1px solid #c0b9b0;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  width: 24px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 150ms ease, background-color 150ms ease;
+  line-height: 1;
+}
+
+.connectBtn:hover {
+  border-color: #c9a83a;
+  background: rgba(201, 168, 58, 0.08);
+}
+
+.resizeBtn {
+  background: transparent;
+  border: 1px solid #c0b9b0;
+  color: #8a8578;
+  font-size: 0.625rem;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.resizeBtn:hover {
+  color: #4a7c59;
+  border-color: #4a7c59;
+  background: rgba(74, 124, 89, 0.05);
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: #b8a888;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.deleteButton:hover {
+  color: #b85450;
+  background: rgba(184, 84, 80, 0.1);
+}
+
+.deleteConfirm {
+  color: #b85450 !important;
+  background: rgba(184, 84, 80, 0.12) !important;
+  animation: pulse 1s infinite;
+}
+
+/* === Completed: diagonal strike === */
+.completed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 20px,
+    rgba(184, 84, 80, 0.12) 20px,
+    rgba(184, 84, 80, 0.12) 22px
+  );
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+.completed .title {
+  text-decoration: line-through;
+  text-decoration-color: #b85450;
+  text-decoration-thickness: 2px;
+  color: #8a8578;
+}
+
+.completed .pinHead {
+  opacity: 0.4;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  .note {
+    padding: 1.5rem 0.75rem 0.75rem;
+  }
+  .sizeSmall { width: 140px; }
+  .sizeMedium { width: 160px; }
+  .sizeLarge { width: 200px; }
+  .title {
+    font-size: 0.875rem;
+  }
+  .footer {
+    margin-top: 0.5rem;
+    padding-top: 0.375rem;
+  }
+  .connectBtn {
+    width: 20px;
+    height: 20px;
+    font-size: 0.625rem;
+  }
+  .resizeBtn {
+    width: 18px;
+    height: 18px;
+    font-size: 0.5625rem;
+  }
+  .deleteButton {
+    font-size: 0.6875rem;
+    padding: 0.1875rem 0.375rem;
+  }
+  .badge {
+    font-size: 0.5625rem;
+    padding: 0.0625rem 0.25rem;
+  }
+  .footerRight {
+    gap: 0.125rem;
+  }
+}

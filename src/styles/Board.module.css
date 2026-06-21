@@ -1,0 +1,381 @@
+/* === Background patterns === */
+.bgDots {
+  background-color: var(--bg-board-base);
+  background-image: radial-gradient(circle, var(--bg-dot-color) 1px, transparent 1px);
+  background-size: 25px 25px;
+}
+
+.bgLines {
+  background-color: var(--bg-board-base);
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 29px, var(--bg-line-color) 29px, var(--bg-line-color) 30px);
+}
+
+.bgCork {
+  background-color: var(--bg-cork-base);
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0, 0, 0, 0.06) 3px, rgba(0, 0, 0, 0.06) 4px),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 0, 0, 0.06) 3px, rgba(0, 0, 0, 0.06) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(0, 0, 0, 0.08) 19px, rgba(0, 0, 0, 0.08) 20px),
+    repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(0, 0, 0, 0.08) 19px, rgba(0, 0, 0, 0.08) 20px);
+  background-size: 4px 4px, 4px 4px, 20px 20px, 20px 20px;
+}
+
+.bgChalkboard {
+  background-color: #2d3a3a;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.008) 2px, rgba(255, 255, 255, 0.008) 3px);
+  background-size: 100% 100%, 100% 100%, 3px 3px;
+}
+
+.bgGradient {
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 50%, var(--bg-gradient-start) 100%);
+}
+
+/* === Board container === */
+.board {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  overflow: auto;
+  transition: background-color 300ms ease;
+}
+
+/* === Top bar: unified row === */
+.topBar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form {
+  display: flex;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 280px;
+}
+
+.input {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input::placeholder { color: var(--color-text-muted); }
+
+.input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.addButton {
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition);
+  white-space: nowrap;
+}
+
+.addButton:hover {
+  background: var(--color-accent-hover);
+}
+
+.topBarGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.topBtn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+  white-space: nowrap;
+}
+
+.topBtn:hover {
+  color: var(--color-text-primary);
+  background: var(--color-accent-light);
+}
+
+.topBtnActive {
+  background: var(--color-accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.topSep {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: var(--color-border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* === Background swatches === */
+.bgSwatch {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.bgSwatch:hover {
+  transform: scale(1.2);
+}
+
+.bgSwatchActive {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(74, 124, 89, 0.25);
+}
+
+.bgSwatchDots {
+  background: var(--bg-board-base);
+  background-image: radial-gradient(circle, var(--bg-dot-color) 1.5px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+
+.bgSwatchLines {
+  background: var(--bg-board-base);
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, var(--bg-line-color) 3px, var(--bg-line-color) 3.5px);
+}
+
+.bgSwatchCork {
+  background: var(--bg-cork-base);
+}
+
+.bgSwatchChalkboard {
+  background: #2d3a3a;
+}
+
+.bgSwatchGradient {
+  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+}
+
+/* === Priority filter bar === */
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-right: 0.25rem;
+}
+
+.filterBtn {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.filterBtn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.filterBtnActive {
+  background: var(--color-accent) !important;
+  color: #fff !important;
+  border-color: var(--color-accent) !important;
+}
+
+/* === Connect hint bar === */
+.connectHint {
+  position: sticky;
+  top: 56px;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #fff3e0;
+  border-bottom: 1px solid #e0cfa0;
+  font-size: 0.8125rem;
+  color: #5a4a20;
+}
+
+.connectHintClose {
+  background: transparent;
+  border: none;
+  color: #8a7020;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: background-color 150ms ease;
+}
+
+.connectHintClose:hover {
+  background: rgba(138, 112, 32, 0.1);
+}
+
+@keyframes noteIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* === Canvas === */
+.canvas {
+  position: relative;
+  min-height: calc(100vh - 200px);
+  width: 100%;
+}
+
+/* === SVG overlay === */
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.threadLine {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+  pointer-events: none;
+}
+
+.threadHitArea {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 40;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.threadDeleteBg {
+  fill: var(--color-surface);
+  stroke: var(--color-border);
+  stroke-width: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.threadDeleteX {
+  fill: var(--color-danger);
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: central;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* === Empty === */
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  pointer-events: none;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.4;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  .topBar {
+    padding: 0.5rem;
+    gap: 0.375rem;
+  }
+  .form {
+    min-width: 100%;
+    gap: 0.375rem;
+  }
+  .input {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.625rem;
+  }
+  .select {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+  }
+  .addButton {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+  .topBtn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
